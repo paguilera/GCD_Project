@@ -32,10 +32,8 @@ melt_and_display_data <- function(var_columns) {
     subject_activity_data <- dcast(melted_data, Subject+Activities ~ variable,mean)
     
     # Displaying the head and tail of the resulting data
-    print("Here is the head of the melted data:")
-    print(head(subject_activity_data))
-    print("Here is the tail of the melted data:")
-    print(tail(subject_activity_data))
+    print("Here is the output of the melted data:")
+    write.table(subject_activity_data, row.names = FALSE)
     
 }
 
@@ -52,7 +50,7 @@ zipFile <- "Dataset.zip"
 if(!file.exists(zipFile)){download.file(fileUrl,destfile=zipFile,mode="wb")}
 
 # Next step is to extract the data from the zip file.
-#unzip(zipFile)
+unzip(zipFile)
 
 # Need to move into the directory that contains the data.
 data_dir <- list.dirs('.', recursive = FALSE)
