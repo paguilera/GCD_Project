@@ -1,5 +1,8 @@
 # Need to insert some preamable here.
 
+# This requires the 'reshape2' library and assumes it is already installed on the user's system.
+library(reshape2)
+
 # A function to handle getting the data from the files and then pass that data back.
 # Need to pass in the activities file, the readings file, and the subjects file.
 parse_readings <- function(activities_file, readings_file, subjects_file) {
@@ -25,6 +28,10 @@ parse_readings <- function(activities_file, readings_file, subjects_file) {
 
 melt_and_display_data <- function(filename, var_columns) {
     
+    current_directory <- getwd()
+    setwd(original_dir)
+    setwd("output")
+    
     # First we 'melt' the data to only have the information we most want to see
     melted_data <- melt(collected_data, id=c("Subject","Activities"),measure.vars = var_columns)
     
@@ -35,10 +42,12 @@ melt_and_display_data <- function(filename, var_columns) {
     # print("Here is the output of the melted data:")
     write.table(subject_activity_data, file = paste0(filename, ".txt"), row.names = FALSE)
     
+    setwd(current_directory)
 }
 
 # Check if our desired working directory exists. If it doesn't, then create it.
 if(!file.exists("./data")){dir.create("./data")}
+if(!file.exists("./output")){dir.create("./output")}
 
 # Moving into the desired working directory after recording our starting directory.
 original_dir <- getwd()
@@ -89,8 +98,6 @@ column_names <- c("Subject", "Activities", "tBodyAcc-mean()-X", "tBodyAcc-mean()
 colnames(collected_data) <- column_names
 
 # Making an example set of data by calculating the mean of the tBodyAcc mean and std values for all axes
-# This requires the 'reshape2' library and assumes it is already installed on the user's system.
-library(reshape2)
 tBodyAcc_cols <- c("tBodyAcc-mean()-X", "tBodyAcc-mean()-Y", "tBodyAcc-mean()-Z", 
                    "tBodyAcc-std()-X", "tBodyAcc-std()-Y", "tBodyAcc-std()-Z")
 tGravityAcc_cols <- c("tGravityAcc-mean()-X", "tGravityAcc-mean()-Y", "tGravityAcc-mean()-Z", 
