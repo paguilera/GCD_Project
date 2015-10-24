@@ -1,4 +1,8 @@
-# Need to insert some preamable here.
+# run_analysis.R
+# Author: Patricio Aguilera
+# Purpose: Take some data fro the web and transform it to various smaller views.
+# This script was written to meet the requirements of the 'Gathering and Cleaning Data'
+# course by Johns Hopkins Univerity on Coursera.
 
 # This requires the 'reshape2' library and assumes it is already installed on the user's system.
 library(reshape2)
@@ -26,6 +30,8 @@ parse_readings <- function(activities_file, readings_file, subjects_file) {
     
 }
 
+# This function takes in a set of columns and a desired filename to generate a 'melt' view
+# of our starting collected data and piping that result to a text file.
 melt_and_display_data <- function(filename, var_columns) {
     
     current_directory <- getwd()
@@ -39,7 +45,6 @@ melt_and_display_data <- function(filename, var_columns) {
     subject_activity_data <- dcast(melted_data, Subject+Activities ~ variable,mean)
     
     # Displaying the head and tail of the resulting data
-    # print("Here is the output of the melted data:")
     write.table(subject_activity_data, file = paste0(filename, ".txt"), row.names = FALSE)
     
     setwd(current_directory)
@@ -63,7 +68,6 @@ unzip(zipFile)
 
 # Need to move into the directory that contains the data.
 data_dir <- list.dirs('.', recursive = FALSE)
-
 setwd(data_dir)
 
 # Set the locations of the files we need to scan here.
@@ -144,5 +148,5 @@ melt_and_display_data("fBodyBodyAccJerkMag", fBodyBodyAccJerkMag_cols)
 melt_and_display_data("fBodyBodyGyroMag", fBodyBodyGyroMag_cols)
 melt_and_display_data("fBodyBodyGyroJerkMag", fBodyBodyGyroJerkMag_cols)
 
-# When all is said and done, we must return to our starting directory.
+# When all is said and done, we return to our starting directory.
 setwd(original_dir)
