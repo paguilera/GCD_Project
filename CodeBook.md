@@ -13,12 +13,12 @@ Additionally, a variable to track the local name for the file after it was downl
 
 Given the output of the zip file, some variables were set up to store the names of the files that were
 used to import the data for manipulation.
-**training_activities_file** <- "train/y_train.txt"
-**training_readings_file** <- "train/X_train.txt"
-**training_subjects_file** <- "train/subject_train.txt"
-**testing_activities_file** <- "test/y_test.txt"
-**testing_readings_file** <- "test/X_test.txt"
-**testing_subjects_file** <- "test/subject_test.txt"
+**training_activities_file** stores the location of the 'y_train.txt' file
+**training_readings_file** stores the location of the 'X_train.txt'
+**training_subjects_file** stores the location of the 'subject_train.txt'
+**testing_activities_file** stores the location of the 'y_test.txt'
+**testing_readings_file** stores the location of the 'X_test.txt'
+**testing_subjects_file** stores the location of the 'subject_test.txt'
 
 ## Data
 
