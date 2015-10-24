@@ -23,7 +23,7 @@ parse_readings <- function(activities_file, readings_file, subjects_file) {
     
 }
 
-melt_and_display_data <- function(var_columns) {
+melt_and_display_data <- function(filename, var_columns) {
     
     # First we 'melt' the data to only have the information we most want to see
     melted_data <- melt(collected_data, id=c("Subject","Activities"),measure.vars = var_columns)
@@ -32,8 +32,8 @@ melt_and_display_data <- function(var_columns) {
     subject_activity_data <- dcast(melted_data, Subject+Activities ~ variable,mean)
     
     # Displaying the head and tail of the resulting data
-    print("Here is the output of the melted data:")
-    write.table(subject_activity_data, row.names = FALSE)
+    # print("Here is the output of the melted data:")
+    write.table(subject_activity_data, file = paste0(filename, ".txt"), row.names = FALSE)
     
 }
 
@@ -119,24 +119,23 @@ fBodyBodyGyroJerkMag_cols <- c("fBodyBodyGyroJerkMag-mean()", "fBodyBodyGyroJerk
 
 
 # There is a lot of data to display. Here's where we call the necessary functions.
-melt_and_display_data(tBodyAcc_cols)
-melt_and_display_data(tGravityAcc_cols)
-melt_and_display_data(tBodyAccJerk_cols)
-melt_and_display_data(tBodyGyro_cols)
-melt_and_display_data(tBodyGyroJerk_cols)
-melt_and_display_data(tBodyAccMag_cols)
-melt_and_display_data(tGravityAccMag_cols)
-melt_and_display_data(tBodyAccJerkMag_cols)
-melt_and_display_data(tBodyGyroMag_cols)
-melt_and_display_data(tBodyGyroJerkMag_cols)
-melt_and_display_data(fBodyAcc_cols)
-melt_and_display_data(fBodyAccJerk_cols)
-melt_and_display_data(fBodyGyro_cols)
-melt_and_display_data(fBodyAccMag_cols)
-melt_and_display_data(fBodyBodyAccJerkMag_cols)
-melt_and_display_data(fBodyBodyGyroMag_cols)
-melt_and_display_data(fBodyBodyGyroJerkMag_cols)
-
+melt_and_display_data("tBodyAcc", tBodyAcc_cols)
+melt_and_display_data("tGravityAcc", tGravityAcc_cols)
+melt_and_display_data("tBodyAccJerk", tBodyAccJerk_cols)
+melt_and_display_data("tBodyGyro", tBodyGyro_cols)
+melt_and_display_data("tBodyGyroJerk", tBodyGyroJerk_cols)
+melt_and_display_data("tBodyAccMag", tBodyAccMag_cols)
+melt_and_display_data("tGravityAccMag", tGravityAccMag_cols)
+melt_and_display_data("tBodyAccJerkMag", tBodyAccJerkMag_cols)
+melt_and_display_data("tBodyGyroMag", tBodyGyroMag_cols)
+melt_and_display_data("tBodyGyroJerkMag", tBodyGyroJerkMag_cols)
+melt_and_display_data("fBodyAcc", fBodyAcc_cols)
+melt_and_display_data("fBodyAccJerk", fBodyAccJerk_cols)
+melt_and_display_data("fBodyGyro", fBodyGyro_cols)
+melt_and_display_data("fBodyAccMag", fBodyAccMag_cols)
+melt_and_display_data("fBodyBodyAccJerkMag", fBodyBodyAccJerkMag_cols)
+melt_and_display_data("fBodyBodyGyroMag", fBodyBodyGyroMag_cols)
+melt_and_display_data("fBodyBodyGyroJerkMag", fBodyBodyGyroJerkMag_cols)
 
 # When all is said and done, we must return to our starting directory.
 setwd(original_dir)

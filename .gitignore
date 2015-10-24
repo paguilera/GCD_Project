@@ -21,5 +21,7 @@ vignettes/*.pdf
 # Ignoring downloaded ZIP files
 *.zip
 
-# Ignoring the resulting directory from the ZIP file
+# Ignoring the working directories
 UCI HAR Dataset/
+data/
+output/
