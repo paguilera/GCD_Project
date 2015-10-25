@@ -2,7 +2,7 @@
 # Author: Patricio Aguilera
 # Purpose: Take some data fro the web and transform it to various smaller views.
 # This script was written to meet the requirements of the 'Gathering and Cleaning Data'
-# course by Johns Hopkins Univerity on Coursera.
+# course by Johns Hopkins School for Public Health on Coursera.
 
 # This requires the 'reshape2' library and assumes it is already installed on the user's system.
 library(reshape2)
@@ -50,7 +50,10 @@ melt_and_display_data <- function(filename, var_columns) {
     setwd(current_directory)
 }
 
-# Check if our desired working directory exists. If it doesn't, then create it.
+# The meat of the script starts here. From here down you will find the steps for processing
+# our desired data.
+
+# Check if our desired working and output directories exist. If either doesn't, then create it.
 if(!file.exists("./data")){dir.create("./data")}
 if(!file.exists("./output")){dir.create("./output")}
 
@@ -58,7 +61,7 @@ if(!file.exists("./output")){dir.create("./output")}
 original_dir <- getwd()
 setwd("./data")
 
-# First step is to download the zip file that contains our data.
+# First step is to download the zip file that contains our data if it hasn't already been downloaded.
 fileUrl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
 zipFile <- "Dataset.zip"
 if(!file.exists(zipFile)){download.file(fileUrl,destfile=zipFile,mode="wb")}
@@ -78,9 +81,13 @@ testing_activities_file <- "test/y_test.txt"
 testing_readings_file <- "test/X_test.txt"
 testing_subjects_file <- "test/subject_test.txt"
 
+# Now we build a data frame to contain the data using our previously declared function.
+# In total, this merges 6 different files into a single unified data frame.
 collected_data <- parse_readings(training_activities_file, training_readings_file, training_subjects_file)
 collected_data <- rbind(collected_data, parse_readings(testing_activities_file, testing_readings_file,
                                                        testing_subjects_file))
+
+# Set up the names of the columns to be used in our unified data frame.
 column_names <- c("Subject", "Activities", "tBodyAcc-mean()-X", "tBodyAcc-mean()-Y", "tBodyAcc-mean()-Z", 
                   "tBodyAcc-std()-X", "tBodyAcc-std()-Y", "tBodyAcc-std()-Z", "tGravityAcc-mean()-X", 
                   "tGravityAcc-mean()-Y", "tGravityAcc-mean()-Z", "tGravityAcc-std()-X", "tGravityAcc-std()-Y", 
@@ -101,7 +108,7 @@ column_names <- c("Subject", "Activities", "tBodyAcc-mean()-X", "tBodyAcc-mean()
                   "fBodyBodyGyroJerkMag-std()")
 colnames(collected_data) <- column_names
 
-# Making an example set of data by calculating the mean of the tBodyAcc mean and std values for all axes
+# Defining our groups of columns that we will use to create the output files in the next step.
 tBodyAcc_cols <- c("tBodyAcc-mean()-X", "tBodyAcc-mean()-Y", "tBodyAcc-mean()-Z", 
                    "tBodyAcc-std()-X", "tBodyAcc-std()-Y", "tBodyAcc-std()-Z")
 tGravityAcc_cols <- c("tGravityAcc-mean()-X", "tGravityAcc-mean()-Y", "tGravityAcc-mean()-Z", 
@@ -129,7 +136,8 @@ fBodyBodyGyroMag_cols <- c("fBodyBodyGyroMag-mean()", "fBodyBodyGyroMag-std()")
 fBodyBodyGyroJerkMag_cols <- c("fBodyBodyGyroJerkMag-mean()", "fBodyBodyGyroJerkMag-std()")
 
 
-# There is a lot of data to display. Here's where we call the necessary functions.
+# There is a lot of data to generate. Here's where we call the previously defined function that displays each collected
+# set of columns as an individual file. In total, there are 18 separate files created.
 melt_and_display_data("tBodyAcc", tBodyAcc_cols)
 melt_and_display_data("tGravityAcc", tGravityAcc_cols)
 melt_and_display_data("tBodyAccJerk", tBodyAccJerk_cols)
@@ -148,5 +156,6 @@ melt_and_display_data("fBodyBodyAccJerkMag", fBodyBodyAccJerkMag_cols)
 melt_and_display_data("fBodyBodyGyroMag", fBodyBodyGyroMag_cols)
 melt_and_display_data("fBodyBodyGyroJerkMag", fBodyBodyGyroJerkMag_cols)
 
-# When all is said and done, we return to our starting directory.
+# When all is said and done, we return to our starting directory. However, we now have the input and output data in
+# the created subfolders so that a user can peruse the data at a future time.
 setwd(original_dir)
